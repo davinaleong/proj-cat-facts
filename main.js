@@ -18,33 +18,40 @@ todosRequest.onload = function() {
       const userRequest = new XMLHttpRequest();
       userRequest.open('GET', 'https://jsonplaceholder.typicode.com/users/'+todoItem.userId, true);
       userRequest.onload = function() {
-        const userData = JSON.parse(this.response);
+        if (userRequest.status >= 200 && userRequest.status < 400) {
+          const userData = JSON.parse(this.response);
 
-        // console.log('userData', userData);
-        const card = document.createElement('div');
-        card.setAttribute('class', 'card');
+          const card = document.createElement('div');
+          card.setAttribute('class', 'card');
 
-        const cardHeading = document.createElement('div');
-        cardHeading.setAttribute('class', 'card-heading');
-        cardHeading.textContent = todoItem.title;
-        card.appendChild(cardHeading);
+          const cardHeading = document.createElement('div');
+          cardHeading.setAttribute('class', 'card-heading');
+          cardHeading.textContent = todoItem.title;
+          card.appendChild(cardHeading);
 
-        const cardContent = document.createElement('div');
-        cardContent.setAttribute('class', 'card-content');
-        cardContent.textContent = userData.name;
-        card.appendChild(cardContent);
-        
-        const cardFooter = document.createElement('div');
-        if (todoItem.completed) {
-          cardFooter.setAttribute('class', 'card-footer completed');
-          cardFooter.textContent = "Completed";
+          const cardContent = document.createElement('div');
+          cardContent.setAttribute('class', 'card-content');
+          cardContent.textContent = userData.name;
+          card.appendChild(cardContent);
+          
+          const cardFooter = document.createElement('div');
+          if (todoItem.completed) {
+            cardFooter.setAttribute('class', 'card-footer completed');
+            cardFooter.textContent = "Completed";
+          } else {
+            cardFooter.setAttribute('class', 'card-footer incomplete');
+            cardFooter.textContent = "Incomplete";
+          }
+          card.appendChild(cardFooter);
+
+          container.appendChild(card);
         } else {
-          cardFooter.setAttribute('class', 'card-footer incomplete');
-          cardFooter.textContent = "Incomplete";
-        }
-        card.appendChild(cardFooter);
+          const errorMessage = document.createElement('div');
+          errorMessage.setAttribute('class', 'alert');
+          errorMessage.textContent = "Can't find user.";
 
-        container.appendChild(card);
+          container.appendChild(errorMessage);
+        }
       }
       userRequest.send();
     });
