@@ -1,2 +1,2 @@
-# proj-cat-facts
+# Cat Facts
 Get and render cat facts
