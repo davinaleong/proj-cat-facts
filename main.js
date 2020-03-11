@@ -1,7 +1,7 @@
 const app = document.getElementById('root');
 
 const pageHeading = document.createElement('h1');
-pageHeading.textContent = "Cat Facts";
+pageHeading.textContent = "TODO List";
 app.appendChild(pageHeading);
 
 const container = document.createElement('div');
